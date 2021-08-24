@@ -21,4 +21,6 @@ After deploying this, sync files to the s3 bucket, then create an invalidation o
 
 ## Version History
 
+- v0.1.1: Adds an output for the S3 bucket's website endpoint (useful if you
+  want to upload site contents and vet it before cutting the DNS over)
 - v0.1.0: Initial release
