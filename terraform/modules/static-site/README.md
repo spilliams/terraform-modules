@@ -18,3 +18,7 @@ Here's a graph of how it breaks down:
 ![graph](graph.svg)
 
 After deploying this, sync files to the s3 bucket, then create an invalidation on the cloudfront ID. I believe it's only necessary to do this with the `root` resources, and that you can leave the `www` resources alone.
+
+## Version History
+
+- v0.1.0: Initial release
