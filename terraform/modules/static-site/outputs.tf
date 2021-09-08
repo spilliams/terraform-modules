@@ -9,7 +9,3 @@ output "root_bucket_endpoint" {
 output "root_cloudfront_id" {
   value = aws_cloudfront_distribution.root.id
 }
-
-output "hosted_zone_id" {
-  value = aws_route53_zone.site.zone_id
-}

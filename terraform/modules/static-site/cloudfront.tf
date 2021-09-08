@@ -52,7 +52,7 @@ resource "aws_cloudfront_distribution" "root" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.main.certificate_arn
+    acm_certificate_arn      = module.tld.certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2019"
   }
@@ -108,7 +108,7 @@ resource "aws_cloudfront_distribution" "www" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.main.certificate_arn
+    acm_certificate_arn      = module.tld.validation_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2019"
   }
