@@ -14,6 +14,4 @@ resource "aws_s3_bucket" "site" {
     index_document = "index.html"
     error_document = "404.html"
   }
-
-  tags = local.tags
 }
