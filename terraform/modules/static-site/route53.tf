@@ -1,20 +1,20 @@
 # Route 53
 resource "aws_route53_zone" "site" {
   count = length(var.hosted_zone_id) > 0 ? 0 : 1
-  name = var.domain_name
+  name  = var.domain_name
 }
 
 data "aws_route53_zone" "site" {
-  count = length(var.hosted_zone_id) > 0 ? 1 : 0
+  count   = length(var.hosted_zone_id) > 0 ? 1 : 0
   zone_id = var.hosted_zone_id
 }
 
 locals {
-  zone_id = length(var.hosted_zone_id) > 0 ? data.aws_route53_zone.site.zone_id : aws_route53_zone.site.zone_id
+  hosted_zone = length(var.hosted_zone_id) > 0 ? data.aws_route53_zone.site[0] : aws_route53_zone.site[0]
 }
 
 resource "aws_route53_record" "site" {
-  zone_id = local.zone_id
+  zone_id = local.hosted_zone.zone_id
   name    = var.domain_name
   type    = "A"
 
