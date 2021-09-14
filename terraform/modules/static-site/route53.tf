@@ -4,7 +4,7 @@ resource "aws_route53_zone" "site" {
 }
 
 resource "aws_route53_record" "site" {
-  zone_id = data.aws_route53_zone.site.zone_id
+  zone_id = aws_route53_zone.site.zone_id
   name    = var.domain_name
   type    = "A"
 

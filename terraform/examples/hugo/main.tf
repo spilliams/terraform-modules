@@ -21,8 +21,23 @@ provider "aws" {
   region = "us-west-2"
 }
 
-module "site" {
+module "tld" {
+  source = "../../modules/tld"
+  
+  domain_name = "example.com"
+}
+
+module "blog" {
   source = "../../modules/static-site"
 
-  domain_name = "example.com"
+  domain_name = "blog.example.com"
+  acm_certificate_arn = module.tld.certificate_arn
+}
+
+resource "aws_route53_record" "blog" {
+  zone_id = module.tld.hosted_zone_id
+  name    = "blog"
+  type    = "NS"
+  ttl     = "30"
+  records = module.blog.name_servers
 }
