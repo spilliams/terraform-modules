@@ -1,22 +1,19 @@
 # static-site module
 
-I copied most of this module from
-[alexhyett/terraform-s3-static-website](https://github.com/alexhyett/terraform-s3-static-website).
-The differences with this module are:
-
-- I flipped the redirect pattern: www redirects to root instead of the other way around.
-- I also switched from email cert validation to DNS cert validation.
-- and I removed the TLSv1 and TLSv1.1 policies. These sites require 1.2 or better.
-
 Deploying this module gets you:
 
-- certs and records to allow TLSv1.2 traffic to `domain_name` and `www.domain_name`
-- s3 buckets and cloudfronts to serve content on these websites.
-- Traffic to `www.domain_name` will be redirected to `domain_name`
+- an s3 bucket to host static site content from. **Note:** this bucket is set
+  for **public-read access!**
+- a cloudfront to host that content behind a domain. **Note:** this cloudfront
+  requires TLSv1.2 traffic.
+- a route53 hosted zone based on the `domain_name` input, and relevant records
+  to forward traffic to CloudFront.
 
-After deploying this, sync files to the s3 bucket, then create an invalidation
-on the cloudfront ID. I believe it's only necessary to deploy to the `root`
-bucket and CDN, and you can leave the `www` bucket and CDN alone.
+This module is designed to be used as a subdomain (e.g. "blog.example.com"). I
+encourage users to provision their own "top-level domain" hosted zone and certs,
+then provision this module, then create an NS record forwarding traffic from
+their tld to the static site. An example of this is provided in
+`terraform/examples/hugo`.
 
 ## Version History
 
@@ -30,6 +27,8 @@ bucket and CDN, and you can leave the `www` bucket and CDN alone.
     for now.
   - adds new outputs `hosted_zone_id` and `name_servers` so that callers can
     route traffic to this site.
+  - adds a new output `cloudfront_domain` so that users can troubleshoot new
+    sites.
 - v0.2.0:
   - removes the Route53 Hosted Zone and Certificate from provisioned resources
     (see `modules/tld`)
