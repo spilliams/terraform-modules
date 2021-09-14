@@ -19,6 +19,14 @@ terraform {
 
 provider "aws" {
   region = "us-west-2"
+  default_tags {
+    tags = {
+      "DeployedBy" = "terraform"
+      "DeploymentSource" = "spilliams/terraform-modules.git//terraform/examples/hugo/main.tf"
+      "Domain" = "example.com"
+      "Owner" = "@spilliams"
+    }
+  }
 }
 
 module "tld" {
