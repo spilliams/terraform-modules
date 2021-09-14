@@ -4,12 +4,6 @@ resource "random_string" "slug" {
   special = false
 }
 
-# this provider is required until all callers have destroyed resources they created with this provider
-provider "aws" {
-  alias  = "acm_provider"
-  region = "us-east-1"
-}
-
 locals {
   default_tags = {
     Domain     = var.domain_name
