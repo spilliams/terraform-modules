@@ -29,6 +29,12 @@ their tld to the static site. An example of this is provided in
     route traffic to this site.
   - adds a new output `cloudfront_domain` so that users can troubleshoot new
     sites.
+  - removes the `tags` input. I encourage users to use the `default_tags`
+    feature in the aws provider.
+  - adds new optional inputs `extra_aliases` and `extra_allowed_origins` for the
+    cloudfront and s3 bucket CORS policy, respectively.
+  - adds new input `hosted_zone_id` for users who want to provide their own
+    hosted zone for the cloudfront.
 - v0.2.0:
   - removes the Route53 Hosted Zone and Certificate from provisioned resources
     (see `modules/tld`)

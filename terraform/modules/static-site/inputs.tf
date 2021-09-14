@@ -18,3 +18,9 @@ variable "extra_allowed_origins" {
   type = list(string)
   default = []
 }
+
+variable "hosted_zone_id" {
+  description = "(Optional) This is for users who want to create their own hosted zone. Note that this module will create an A record on the hosted zone"
+  type = string
+  default = ""
+}
