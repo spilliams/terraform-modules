@@ -15,7 +15,7 @@ resource "aws_cloudfront_distribution" "site" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = [var.domain_name]
+  aliases = concat([var.domain_name], var.extra_aliases)
 
   custom_error_response {
     error_caching_min_ttl = 0
