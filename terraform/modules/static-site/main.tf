@@ -11,12 +11,5 @@ locals {
   }
   tags               = merge(local.default_tags, var.tags)
   bucket_domain_name = join("-", split(".", var.domain_name))
-  root_bucket_name   = "tf-${local.bucket_domain_name}-root-${random_string.slug.result}"
-  www_bucket_name    = "tf-${local.bucket_domain_name}-www-${random_string.slug.result}"
-}
-
-module "tld" {
-  source = "../tld"
-
-  domain_name = var.domain_name
+  bucket_name        = "tf-${local.bucket_domain_name}-${random_string.slug.result}"
 }

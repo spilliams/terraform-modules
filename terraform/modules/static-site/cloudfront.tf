@@ -1,7 +1,6 @@
-# Cloudfront for root S3
-resource "aws_cloudfront_distribution" "root" {
+resource "aws_cloudfront_distribution" "site" {
   origin {
-    domain_name = aws_s3_bucket.root.website_endpoint
+    domain_name = aws_s3_bucket.site.website_endpoint
     origin_id   = "S3-.${var.domain_name}"
 
     custom_origin_config {
@@ -52,63 +51,7 @@ resource "aws_cloudfront_distribution" "root" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = module.tld.certificate_arn
-    ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2019"
-  }
-
-  tags = local.tags
-}
-
-
-# Cloudfront S3 for redirect to non-www.
-resource "aws_cloudfront_distribution" "www" {
-  origin {
-    domain_name = aws_s3_bucket.www.website_endpoint
-    origin_id   = "S3-www.${var.domain_name}"
-
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  enabled         = true
-  is_ipv6_enabled = true
-
-  aliases = ["www.${var.domain_name}"]
-
-  default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-www.${var.domain_name}"
-
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-
-      headers = ["Origin"]
-    }
-
-    viewer_protocol_policy = "allow-all"
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
-  }
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-
-  viewer_certificate {
-    acm_certificate_arn      = module.tld.validation_certificate_arn
+    acm_certificate_arn      = var.acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2019"
   }

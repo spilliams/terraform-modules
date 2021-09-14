@@ -20,6 +20,16 @@ bucket and CDN, and you can leave the `www` bucket and CDN alone.
 
 ## Version History
 
+- v0.3.0:
+  - removes all trace of the `www` redirect stuff. This may come back in a
+    future version.
+  - adds a new input `acm_certificate_arn` for linking the cloudfront with an
+    external certificate.
+  - no longer provisions the "top-level domain" resources for redirecting
+    traffic from www to root. Callers are expected to do this on their own terms
+    for now.
+  - adds new outputs `hosted_zone_id` and `name_servers` so that callers can
+    route traffic to this site.
 - v0.2.0:
   - removes the Route53 Hosted Zone and Certificate from provisioned resources
     (see `modules/tld`)

@@ -1,7 +1,7 @@
-resource "aws_s3_bucket" "root" {
-  bucket = local.root_bucket_name
+resource "aws_s3_bucket" "site" {
+  bucket = local.bucket_name
   acl    = "public-read"
-  policy = templatefile("${path.module}/bucket-policy.json.tpl", { bucket = local.root_bucket_name })
+  policy = templatefile("${path.module}/bucket-policy.json.tpl", { bucket = local.bucket_name })
 
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
@@ -13,19 +13,6 @@ resource "aws_s3_bucket" "root" {
   website {
     index_document = "index.html"
     error_document = "404.html"
-  }
-
-  tags = local.tags
-}
-
-# S3 bucket for redirecting www to non-www.
-resource "aws_s3_bucket" "www" {
-  bucket = local.www_bucket_name
-  acl    = "public-read"
-  policy = templatefile("${path.module}/bucket-policy.json.tpl", { bucket = local.www_bucket_name })
-
-  website {
-    redirect_all_requests_to = "https://${var.domain_name}"
   }
 
   tags = local.tags
