@@ -7,11 +7,13 @@ terraform {
       version = "~> 3.0"
     }
   }
+
   backend "s3" {
     bucket  = "spilliams-terraform-state"
     encrypt = true
     key     = "github.com-spilliams-terraform-modules/examples/hugo/terraform.tfstate"
     region  = "us-west-2"
+    dynamodb_table = "spilliams-terraform-state"
   }
 }
 
