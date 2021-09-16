@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "site" {
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
     allowed_methods = ["GET", "POST"]
-    allowed_origins = var.extra_allowed_origins
+    allowed_origins = concat(["https://${var.domain_name}"], var.extra_allowed_origins)
     max_age_seconds = 3000
   }
 
