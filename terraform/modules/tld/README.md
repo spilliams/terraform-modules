@@ -10,5 +10,6 @@ the fly and hope it propagates before terraform times out.
 
 ## Version History
 
+- v0.3.1: Adds an output for the hosted zone's name-servers
 - v0.2.1: Adds an output for the hosted zone's zone ID
 - v0.2.0: Initial release
